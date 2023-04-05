@@ -39,25 +39,8 @@ class HomePageState extends State<HomePage> {
                   onPressed: () {
                     if (task != '') {
                       setState(() {
-                        tasks.add(Column(
-                          children: [
-                            Container(
-                              decoration: const BoxDecoration(
-                                borderRadius: BorderRadiusDirectional.all(
-                                    Radius.circular(10)),
-                                color: Colors.green,
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [Text(task), const CheckBoxWidget()],
-                              ),
-                            ),
-                            Container(
-                              height: 10,
-                            )
-                          ],
+                        tasks.add(CheckBoxWidget(
+                          task: task,
                         ));
                       });
                     }
