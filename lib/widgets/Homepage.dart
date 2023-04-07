@@ -54,13 +54,24 @@ class HomePageState extends State<HomePage> {
               child: ElevatedButton(
                   onPressed: () {
                     _clearField();
+
                     if (task != '') {
-                      setState(() {
-                        tasks.add(CheckBoxWidget(
-                          task: task,
-                          handleDeleteTask: handleDeleteTask,
-                        ));
-                      });
+                      if (tasks.isNotEmpty) {
+                        tasks.singleWhere((element) => element.task == task,
+                            orElse: () => setState(() {
+                                  tasks.add(CheckBoxWidget(
+                                    task: task,
+                                    handleDeleteTask: handleDeleteTask,
+                                  ));
+                                }));
+                      } else {
+                        setState(() {
+                          tasks.add(CheckBoxWidget(
+                            task: task,
+                            handleDeleteTask: handleDeleteTask,
+                          ));
+                        });
+                      }
                     }
                   },
                   child: const Icon(Icons.add)),
