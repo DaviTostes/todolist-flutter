@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
 class CheckBoxWidget extends StatefulWidget {
-  const CheckBoxWidget({super.key, required this.task});
+  const CheckBoxWidget({
+    super.key,
+    required this.task,
+    required this.handleDeleteTask,
+  });
+
   final String task;
+  final void Function(String) handleDeleteTask;
 
   @override
   State<CheckBoxWidget> createState() => CheckBoxState();
@@ -34,13 +40,22 @@ class CheckBoxState extends State<CheckBoxWidget> {
                     style: const TextStyle(color: Colors.white),
                   ),
                 ),
-                Checkbox(
-                    value: isChecked,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        isChecked = value!;
-                      });
-                    }),
+                Row(
+                  children: [
+                    Checkbox(
+                        value: isChecked,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            isChecked = value!;
+                          });
+                        }),
+                    IconButton(
+                        onPressed: () {
+                          widget.handleDeleteTask(widget.task);
+                        },
+                        icon: const Icon(Icons.delete))
+                  ],
+                )
               ],
             ),
           ),

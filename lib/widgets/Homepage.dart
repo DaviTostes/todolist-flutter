@@ -12,6 +12,21 @@ class HomePageState extends State<HomePage> {
   String task = '';
   List tasks = [];
 
+  final TextEditingController _textFieldController = TextEditingController();
+  void _clearField() {
+    _textFieldController.clear();
+  }
+
+  void handleDeleteTask(taskName) {
+    setState(() {
+      for (int i = 0; i < tasks.length; i++) {
+        if (tasks[i].task == taskName) {
+          tasks.removeAt(i);
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,6 +38,7 @@ class HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(8.0),
           child: Column(children: [
             TextField(
+              controller: _textFieldController,
               onChanged: (text) {
                 task = text;
               },
@@ -37,10 +53,12 @@ class HomePageState extends State<HomePage> {
               width: MediaQuery.of(context).size.width,
               child: ElevatedButton(
                   onPressed: () {
+                    _clearField();
                     if (task != '') {
                       setState(() {
                         tasks.add(CheckBoxWidget(
                           task: task,
+                          handleDeleteTask: handleDeleteTask,
                         ));
                       });
                     }
@@ -49,7 +67,6 @@ class HomePageState extends State<HomePage> {
             ),
             Container(height: 20),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [...tasks],
             )
           ]),
