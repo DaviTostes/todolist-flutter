@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todolist/widgets/CheckBox.dart';
+import 'package:todolist/app_controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -32,6 +33,15 @@ class HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('ToDo List'),
+        actions: [
+          Switch(
+              value: AppController.instance.isDarkTheme,
+              onChanged: (value) {
+                setState(() {
+                  AppController.instance.changeTheme();
+                });
+              })
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
