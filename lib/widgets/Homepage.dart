@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:todolist/instance.dart';
+import 'package:todolist/share_pref.dart';
 import 'package:todolist/widgets/CheckBox.dart';
 import 'package:todolist/app_controller.dart';
 
@@ -10,6 +12,10 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  SharedPref sharedPref = SharedPref();
+  User userSave = User();
+  User userLoad = User();
+
   String task = '';
   List tasks = [];
 
@@ -73,6 +79,7 @@ class HomePageState extends State<HomePage> {
                                     task: task,
                                     handleDeleteTask: handleDeleteTask,
                                   ));
+                                  sharedPref.save('tasks', userSave);
                                 }));
                       } else {
                         setState(() {
@@ -80,6 +87,7 @@ class HomePageState extends State<HomePage> {
                             task: task,
                             handleDeleteTask: handleDeleteTask,
                           ));
+                          sharedPref.save('tasks', userSave);
                         });
                       }
                     }
