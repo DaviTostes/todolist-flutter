@@ -1,16 +1,11 @@
 # todolist
 
-A new Flutter project.
+Pequeno projeto de um app de lista de tarefas feito com flutter.
 
-## Getting Started
+## Link
 
-This project is a starting point for a Flutter application.
+Você pode baixar o apk para android através deste link: https://www.mediafire.com/file/1qb3vsyqw16ku4w/todolist.apk/file
 
-A few resources to get you started if this is your first Flutter project:
+## Instruções
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+No app você pode adicionar tarefas, marcas-las e delete-las e também mudar o tema do app.
