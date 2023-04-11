@@ -1,12 +1,15 @@
 class User {
-  User();
+  User({required this.tasks});
 
-  late List tasks;
-  late bool isDarkTheme;
+  List tasks = [];
 
-  User.fromJson(Map<String, dynamic> json)
-      : tasks = json['tasks'],
-        isDarkTheme = json['isDarkTheme'];
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(tasks: json['tasks'] as List);
+  }
 
-  Map<String, dynamic> toJson() => {'tasks': tasks, 'isDarkTheme': isDarkTheme};
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['tasks'] = tasks;
+    return data;
+  }
 }

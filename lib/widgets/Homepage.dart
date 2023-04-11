@@ -13,11 +13,22 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   SharedPref sharedPref = SharedPref();
-  User userSave = User();
-  User userLoad = User();
+  User userSave = User(tasks: []);
+  User userLoad = User(tasks: []);
 
   String task = '';
-  List tasks = [];
+
+  loadSharedPrefs() async {
+    try {
+      List tasks = await sharedPref.read('tasks');
+      setState(() {
+        userLoad.tasks = tasks;
+        print(tasks);
+      });
+    } catch (error) {
+      print(error);
+    }
+  }
 
   final TextEditingController _textFieldController = TextEditingController();
   void _clearField() {
@@ -26,12 +37,20 @@ class HomePageState extends State<HomePage> {
 
   void handleDeleteTask(taskName) {
     setState(() {
-      for (int i = 0; i < tasks.length; i++) {
-        if (tasks[i].task == taskName) {
-          tasks.removeAt(i);
+      for (int i = 0; i < userLoad.tasks.length; i++) {
+        if (userLoad.tasks[i] == taskName) {
+          sharedPref.remove(userLoad.tasks[i]);
+          loadSharedPrefs();
         }
       }
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    userSave.tasks = userLoad.tasks;
+    loadSharedPrefs();
   }
 
   @override
@@ -72,22 +91,18 @@ class HomePageState extends State<HomePage> {
                     _clearField();
 
                     if (task != '') {
-                      if (tasks.isNotEmpty) {
-                        tasks.singleWhere((element) => element.task == task,
+                      if (userSave.tasks.isNotEmpty) {
+                        userSave.tasks.singleWhere((element) => element == task,
                             orElse: () => setState(() {
-                                  tasks.add(CheckBoxWidget(
-                                    task: task,
-                                    handleDeleteTask: handleDeleteTask,
-                                  ));
-                                  sharedPref.save('tasks', userSave);
+                                  userSave.tasks.add(task);
+                                  sharedPref.save('tasks', [...userSave.tasks]);
+                                  loadSharedPrefs();
                                 }));
                       } else {
                         setState(() {
-                          tasks.add(CheckBoxWidget(
-                            task: task,
-                            handleDeleteTask: handleDeleteTask,
-                          ));
-                          sharedPref.save('tasks', userSave);
+                          userSave.tasks.add(task);
+                          sharedPref.save('tasks', [...userSave.tasks]);
+                          loadSharedPrefs();
                         });
                       }
                     }
@@ -96,7 +111,10 @@ class HomePageState extends State<HomePage> {
             ),
             Container(height: 20),
             Column(
-              children: [...tasks],
+              children: [
+                ...userLoad.tasks.map((e) =>
+                    CheckBoxWidget(task: e, handleDeleteTask: handleDeleteTask))
+              ],
             )
           ]),
         ),
