@@ -4,7 +4,7 @@ Pequeno projeto de um app de lista de tarefas feito com flutter.
 
 ## Link
 
-Você pode baixar o apk para android através deste link: https://www.mediafire.com/file/1qb3vsyqw16ku4w/todolist.apk/file
+Você pode baixar o apk para android através deste link: https://www.mediafire.com/file/kdfdd3viweiqwds/todoList.apk/file
 
 ## Instruções
 
