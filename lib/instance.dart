@@ -2,6 +2,7 @@ class User {
   User({required this.tasks});
 
   List tasks = [];
+  bool isDarkTheme = false;
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(tasks: json['tasks'] as List);

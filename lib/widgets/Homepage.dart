@@ -20,11 +20,24 @@ class HomePageState extends State<HomePage> {
   loadSharedPrefs() async {
     try {
       List tasks = await sharedPref.read('tasks');
+      userLoad.isDarkTheme =
+          boolParsing((await sharedPref.read('isDarkTheme')).toLowerCase());
       setState(() {
         userLoad.tasks = tasks;
+        if (AppController.instance.isDarkTheme != userLoad.isDarkTheme) {
+          AppController.instance.changeTheme();
+        }
       });
     } catch (error) {
       print(error);
+    }
+  }
+
+  bool boolParsing(String str) {
+    if (str.toLowerCase() == 'true') {
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -61,6 +74,8 @@ class HomePageState extends State<HomePage> {
               onChanged: (value) {
                 setState(() {
                   AppController.instance.changeTheme();
+                  sharedPref.save('isDarkTheme',
+                      AppController.instance.isDarkTheme.toString());
                 });
               })
         ],
