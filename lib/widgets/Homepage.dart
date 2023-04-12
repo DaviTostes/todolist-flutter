@@ -13,7 +13,6 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   SharedPref sharedPref = SharedPref();
-  User userSave = User(tasks: []);
   User userLoad = User(tasks: []);
 
   String task = '';
@@ -23,7 +22,6 @@ class HomePageState extends State<HomePage> {
       List tasks = await sharedPref.read('tasks');
       setState(() {
         userLoad.tasks = tasks;
-        print(tasks);
       });
     } catch (error) {
       print(error);
@@ -39,8 +37,8 @@ class HomePageState extends State<HomePage> {
     setState(() {
       for (int i = 0; i < userLoad.tasks.length; i++) {
         if (userLoad.tasks[i] == taskName) {
-          sharedPref.remove(userLoad.tasks[i]);
-          loadSharedPrefs();
+          userLoad.tasks.removeAt(i);
+          sharedPref.save('tasks', [...userLoad.tasks]);
         }
       }
     });
@@ -49,7 +47,6 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    userSave.tasks = userLoad.tasks;
     loadSharedPrefs();
   }
 
@@ -91,17 +88,17 @@ class HomePageState extends State<HomePage> {
                     _clearField();
 
                     if (task != '') {
-                      if (userSave.tasks.isNotEmpty) {
-                        userSave.tasks.singleWhere((element) => element == task,
+                      if (userLoad.tasks.isNotEmpty) {
+                        userLoad.tasks.singleWhere((element) => element == task,
                             orElse: () => setState(() {
-                                  userSave.tasks.add(task);
-                                  sharedPref.save('tasks', [...userSave.tasks]);
+                                  userLoad.tasks.add(task);
+                                  sharedPref.save('tasks', [...userLoad.tasks]);
                                   loadSharedPrefs();
                                 }));
                       } else {
                         setState(() {
-                          userSave.tasks.add(task);
-                          sharedPref.save('tasks', [...userSave.tasks]);
+                          userLoad.tasks.add(task);
+                          sharedPref.save('tasks', [...userLoad.tasks]);
                           loadSharedPrefs();
                         });
                       }

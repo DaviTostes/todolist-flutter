@@ -12,9 +12,4 @@ class SharedPref {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(key, jsonEncode(value));
   }
-
-  remove(String key) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.remove(key);
-  }
 }
